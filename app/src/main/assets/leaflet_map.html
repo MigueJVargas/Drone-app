@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Leaflet Map</title>
+        <!-- Enlace a la biblioteca Leaflet -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <style>
+            #map {
+                height: 100%; /* Ajusta la altura según el contenedor */
+                width: 100%; /* Ajusta el ancho según el contenedor */
+            }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+
+        <!-- Enlace a la biblioteca Leaflet -->
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+        <script>
+            // Variables globales para el mapa y el marcador
+            var map, marker;
+
+            // Función para inicializar el mapa
+            function initMap(latitude, longitude) {
+                map = L.map('map').setView([latitude, longitude], 13); // Centrado en la ubicación actual, nivel de zoom 13
+
+                // Añadir una capa de mapa de OpenStreetMap
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(map);
+
+                // Añadir marcador para la ubicación actual
+                marker = L.marker([latitude, longitude]).addTo(map)
+                    .bindPopup('Tu ubicación actual')
+                    .openPopup();
+            }
+
+            // Llama a esta función desde Android para actualizar la ubicación del marcador
+            function actualizarUbicacion(latitude, longitude) {
+                if (map && marker) {
+                    map.setView([latitude, longitude]); // Centra el mapa en la nueva ubicación
+                    marker.setLatLng([latitude, longitude]); // Actualiza la posición del marcador
+                }
+            }
+        </script>
+    </body>
+</html>
